@@ -1,0 +1,136 @@
+@import 'bourbon';
+@import 'neat';
+@import 'pages';
+@import 'variables';
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ /* ----------- iPhone 4 and 4S ----------- */
+
+ /* Portrait and Landscape */
+ body {
+   margin: 0;
+ }
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 480px)
+   and (-webkit-min-device-pixel-ratio: 2) {
+    h1 {
+      font-size: 5em;
+    }
+    a {
+      font-size: 1.4em;
+    }
+ }
+
+ /* Portrait */
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 480px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: portrait) {
+ }
+
+ /* Landscape */
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 480px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: landscape) {
+
+ }
+
+ /* ----------- iPhone 5 and 5S ----------- */
+
+ /* Portrait and Landscape */
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 568px)
+   and (-webkit-min-device-pixel-ratio: 2) {
+
+ }
+
+ /* Portrait */
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 568px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: portrait) {
+ }
+
+ /* Landscape */
+ @media only screen
+   and (min-device-width: 320px)
+   and (max-device-width: 568px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: landscape) {
+
+ }
+
+ /* ----------- iPhone 6 ----------- */
+
+ /* Portrait and Landscape */
+ @media only screen
+   and (min-device-width: 375px)
+   and (max-device-width: 667px)
+   and (-webkit-min-device-pixel-ratio: 2) {
+
+ }
+
+ /* Portrait */
+ @media only screen
+   and (min-device-width: 375px)
+   and (max-device-width: 667px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: portrait) {
+
+ }
+
+ /* Landscape */
+ @media only screen
+   and (min-device-width: 375px)
+   and (max-device-width: 667px)
+   and (-webkit-min-device-pixel-ratio: 2)
+   and (orientation: landscape) {
+
+ }
+
+ /* ----------- iPhone 6+ ----------- */
+
+ /* Portrait and Landscape */
+ @media only screen
+   and (min-device-width: 414px)
+   and (max-device-width: 736px)
+   and (-webkit-min-device-pixel-ratio: 3) {
+
+ }
+
+ /* Portrait */
+ @media only screen
+   and (min-device-width: 414px)
+   and (max-device-width: 736px)
+   and (-webkit-min-device-pixel-ratio: 3)
+   and (orientation: portrait) {
+
+ }
+
+ /* Landscape */
+ @media only screen
+   and (min-device-width: 414px)
+   and (max-device-width: 736px)
+   and (-webkit-min-device-pixel-ratio: 3)
+   and (orientation: landscape) {
+
+ }

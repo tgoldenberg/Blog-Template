@@ -1,0 +1,13 @@
+%header.navigation{role:'banner'}
+  .navigation-wrapper
+    %a{href:'#', class: 'logo'}
+      %img{src:"https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png"}
+    %nav{role: 'navigation'}
+      %ul{id: 'js-navigation-menu', class:'navigation-menu show'}
+        %li.nav-link
+          = link_to 'Github Profile', '#', class: 'github-link'
+        %li.nav-link
+          = link_to 'Tom Goldenberg', '#', class: 'github-link'
+    .navigation-tools
+      %li.nav-link
+        = link_to 'Send a Message', '#', class: 'sign-up'
