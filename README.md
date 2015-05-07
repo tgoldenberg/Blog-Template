@@ -1,5 +1,5 @@
 # responsive-blog
-### A mobile-first-designed blog template using Bourbon 
+### A mobile-first-designed blog template using `Bourbon` 
 *** 
 ### Gems used 
   + `bourbon`
