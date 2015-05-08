@@ -22,5 +22,5 @@
 
 ### Screenshots 
 
-![header]() 
-![content]()
+![header]('app/assets/images/header.png') 
+![content]('app/assets/images/content.png')
