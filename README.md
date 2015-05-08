@@ -22,5 +22,5 @@
 
 ### Screenshots 
 
-![header]('/app/assets/images/header.png') 
-![content]('/app/assets/images/content.png')
+![header](https://raw.github.com/tgoldenberg/responsive-blog/master/app/assets/images/header.png)
+![content](https://raw.github.com/tgoldenberg/responsive-blog/master/app/assets/images/content.png)
