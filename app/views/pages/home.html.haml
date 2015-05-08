@@ -93,7 +93,7 @@
     .markdown-wrapper
       :markdown
         Now we can create our models and controllers. On the left, you will see the command-line commands for creating our home page controller as well as our `devise` __User__ model, a scaffold for the __puppies__ resource, and last, our __charges__  model. In our model files, we create the necessary associations, so that we can associate a puppy with a user - `puppy.user` - a charge with a buyer and seller -- `charge.user` and `charge.vendor` -- and likewise, -- `user.received_charges` and `user.paid_charges`. Below you can see what our home page will look like when a customer clicks to buy a puppy.
-      = image_path("screen2.png"), style: 'width: 490px; margin-top: 50px; margin-left: 50px;'
+      = image_tag asset_path("screen2.png"), style: 'width: 490px; margin-top: 50px; margin-left: 50px;'
 
   %div{style: 'clear:both;'}
 .panel-light{style: 'background: #F9F9F9;'}
@@ -270,8 +270,10 @@
         Next we can see that in our __charges__ controller, we have made a few changes. Compare this to the __Stripe__ example [here](https://stripe.com/docs/connect/payments-fees). We have seperated the __Stripe::Customer.create__ and __Stripe::Charge.create__ actions into two seperate controller actions - `create` and `complete`. In the __create__ action, we save our users information in the `charge` model of our database. Once it is time to charge our customer, we call the __complete__ action with parameters for the destination and user __token__. If we look in our __Stripe dashboard__, we will be able to see the transaction transferring money to our seller, and an application fee ( defined in the `charges#complete` action) to us.
 
         Well, that's about it for creating payments with __Stripe__. I hope you enjoyed this blog post. Please share your comments below. I am by no means an expert, and welcome corrections / improvements. Also, for the full repo, visit my Github site [here](https://github.com/tgoldenberg/stripe-test). Happy coding!
-    = image_path("screen1.png"), style: 'width: 380px; margin-top: 20px; margin-left: 50px;'
-    = image_path("screen5.png"), style: 'width: 380px; margin-top: 20px; margin-left: 50px;'
+    = image_tag asset_path("screen1.png")
+    -# , style: 'width: 380px; margin-top: 20px; margin-left: 50px;'
+    = image_tag asset_path("screen5.png")
+    -# , style: 'width: 380px; margin-top: 20px; margin-left: 50px;'
 
   %div{style: 'clear:both;'}
 
