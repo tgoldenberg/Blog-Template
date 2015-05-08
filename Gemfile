@@ -15,6 +15,8 @@ gem 'bourbon'
 gem 'neat'
 gem 'simple_form'
 gem 'haml-rails'
+gem 'responders'
+gem 'closure_tree'
 
 group :development, :test do
   gem 'byebug'
