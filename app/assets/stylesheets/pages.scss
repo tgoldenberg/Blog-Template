@@ -133,7 +133,11 @@
 .content-wrapper {
   width: 66.6667%;
   padding: 20px;
-  background: white;
+  /* margin-top: 20px; */
+  p {
+    background: white;
+    padding: 30px;
+  }
 }
 // Typography
 $base-font-family: $helvetica;
