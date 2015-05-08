@@ -159,6 +159,9 @@
    $navigation-submenu-padding: 1em;
    $navigation-submenu-width: 12em;
    $horizontal-bar-mode: $large-screen;
+   @include media ($large-screen) {
+     $navigation-height: 4em;
+   }
 
    background-color: $navigation-background;
    border-bottom: 1px solid darken($navigation-background, 10);
@@ -361,9 +364,11 @@
      @include button(flat, $action-color);
      display: inline;
      float: right;
-     font-size: 1.2em;
+     font-size: 1em;
      margin-top: ($navigation-height/8);
      padding: 0.75em 1em;
      text-transform: uppercase;
    }
+
+
  }

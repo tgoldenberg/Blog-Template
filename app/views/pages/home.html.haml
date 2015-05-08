@@ -3,14 +3,19 @@
   .side-image-content
     %h4 Stripe with Rails
     %h1 3-way payments with Stripe
-    <p> Stripe is considered to have some of the best documentation available for payment gateway systems.
+    <p style="margin-bottom: 1em;"> Stripe is considered to have some of the best documentation available for payment gateway systems.
     While that is indeed true, it can still be daunting to implement custom features for your app with Stripe.
-    For sure, the Stripe Checkout popup takes the problem of styling out of your hands,
+    For sure, Stripe has some excellent feature to make styling easy,
     but what if you want to host payments between users? Here I will take you step-by-step through the process.</p>
-.panel-light
-  .content-wrapper
-    %p XOXO put a bird on it flannel street art synth VHS, Schlitz vinyl. Sustainable listicle food truck four loko Portland, slow-carb flannel. Shabby chic Truffaut keffiyeh, 8-bit Marfa hashtag tofu Vice. Seitan post-ironic banjo farm-to-table Pitchfork. Art party authentic trust fund, bespoke American Apparel wayfarers cronut. Messenger bag cold-pressed hella, actually 3 wolf moon next level kogi butcher Brooklyn plaid tilde Echo Park. Taxidermy Intelligentsia tousled, butcher art party typewriter American Apparel cliche.
-  .code-wrapper
+.panel-light{style: 'background: #F9F9F9;'}
+  .content-wrapper{style: 'width: 60%; background: #F9F9F9;'}
+
+    .markdown-wrapper
+      :markdown
+        Alright, let's get started. The first thing is to install the necessary gems and build the models that we'll need for this example application. The theme to our app will be a puppy adoption center, where our site hosts sellers and takes a percentage of each transaction. The gems we will be using are featured on the right, and include `devise` for authentication, `haml-rails` for our layout, `bourbon` and `neat` for our CSS, `figaro` to store our environment variables, and the `stripe` and `omniauth-stripe-connect` gems for managing our payments through Stripe.
+
+        You will want to run the `bundle install` command to install the gems. Also, you can start the application with the command `rails new my-app-name`.
+  .code-wrapper{style: 'width: 39%;'}
     %pre
       %code
         :preserve
@@ -85,20 +90,27 @@
           end
 
   .content-wrapper{style: 'width: 53%; margin-right: 15px;'}
-    %p Farm-to-table letterpress narwhal artisan, chia hashtag distillery authentic kogi retro mustache salvia hoodie photo booth raw denim. Chambray dreamcatcher narwhal, typewriter tilde Wes Anderson whatever fap vegan kogi iPhone Helvetica pickled viral tattooed. Banh mi messenger bag hoodie, quinoa meggings Austin Etsy gastropub fixie keffiyeh hella organic mlkshk. Twee PBR artisan, High Life mlkshk health goth meditation scenester. Marfa cardigan keffiyeh street art. Flexitarian pug tilde polaroid PBR, narwhal lomo tattooed Marfa. Dreamcatcher sriracha XOXO lomo whatever.
-    %img{src: "/assets/screen2.png", style: 'width: 630px;'}
+    .markdown-wrapper
+      :markdown
+        Now we can create our models and controllers. On the left, you will see the command-line commands for creating our home page controller as well as our `devise` __User__ model, a scaffold for the __puppies__ resource, and last, our __charges__  model. In our model files, we create the necessary associations, so that we can associate a puppy with a user - `puppy.user` - a charge with a buyer and seller -- `charge.user` and `charge.vendor` -- and likewise, -- `user.received_charges` and `user.paid_charges`. Below you can see what our home page will look like when a customer clicks to buy a puppy.
+      %img{src: "/assets/screen2.png", style: 'width: 490px; margin-top: 50px; margin-left: 50px;'}
 
   %div{style: 'clear:both;'}
 .panel-light{style: 'background: #F9F9F9;'}
   .content-wrapper{style: 'width: 42%; margin-left: 3px;'}
-    %p Brunch seitan Blue Bottle, crucifix lumbersexual umami blog keffiyeh. Pickled asymmetrical before they sold out kogi. Mlkshk beard semiotics, sriracha YOLO health goth fap selfies heirloom lumbersexual Kickstarter Thundercats typewriter. Try-hard hoodie PBR&B craft beer. DIY crucifix drinking vinegar paleo ethical typewriter. YOLO PBR&B slow-carb put a bird on it, next level Thundercats master cleanse Shoreditch Austin Odd Future. Forage Pinterest taxidermy pug, lomo blog disrupt street art gentrify Vice pork belly organic occupy try-hard.
+    .markdown-wrapper
+      :markdown
+        Now to get setup with Stripe, you should first create an account at [https://stripe.com/](https://stripe.com). There you'll get a set of keys, both for testing and for when your website is ready to launch. Here we'll be dealing with test mode. Once you have your publishable and secret keys, you'll want to use the __figaro__ gem to encrypt that information so that it isn't passed into your git commits and Github. Check out figaro's documentation [here](https://github.com/laserlemon/figaro).
+
+        Once that is done, since we are using `devise`, we should adjust our `initializers/devise.rb` file, and create a `stripe.rb` file in our __config/initializers__ folder. In out `routes.rb` file, you'll see that we've configured our __devise__ routes to include an `omniauth_callback` controller. We've also included a `charges#complete` controller action to allow us to create delayed payments. This way our buyer's are charged only upon successful completion of the terms of service.
   .code-wrapper{style: 'width: 56%;'}
     %pre
       %code
         = preserve do
           :escaped
-
             ## routes.rb
+
+
             Rails.application.routes.draw do
               resources :puppies
               resources :charges
@@ -109,17 +121,25 @@
             end
 
             ## initializers/stripe.rb
+
+
             Rails.configuration.stripe = {
               :publishable_key => ENV["stripe_publishable_key"],
               :secret_key      => ENV["stripe_api_key"]
             }
             Stripe.api_key = Rails.configuration.stripe[:secret_key]
 
+
             ## initializers/devise.rb
+
+
             config.omniauth :stripe_connect, ENV["access_token"], ENV["stripe_api_key"],
             scope: 'read_write', stripe_landing: 'register'
 
+
             ## home.html.haml
+
+
             <div class="puppy-button">
               <%= form_for @charge do |f| %>
                 <%= f.hidden_field :amount, value: puppy.price %>
@@ -129,6 +149,8 @@
                 data-key=ENV["stripe_publishable_key"] data-amount="<%= puppy.price*100 %>"
                 data-name="PuppyAdopt" data-description="<%= number_to_currency(puppy.price) %>"
                 data-image: "/assets/lab.jpg"></script>
+
+
   %div{style: 'clear:both;'}
 
 .panel-dark{style: 'background: #F9F9F9;'}
@@ -137,6 +159,8 @@
       %code
         :preserve
           ## omniauth_callbacks_controller.rb
+
+
           class OmniauthCallbacksController < ApplicationController
             def stripe_connect
               @user = current_user
@@ -157,7 +181,10 @@
             end
           end
 
+
           ## pages_controller.rb
+
+
           class PagesController < ApplicationController
             before_action :authenticate_user!
             def home
@@ -174,7 +201,10 @@
             end
           end
 
+
           ## charges_controller.rb
+
+
           class ChargesController < ApplicationController
             def new
             end
@@ -225,24 +255,36 @@
             end
           end
 
+
+
+
+
+
   .content-wrapper{style: 'width: 42%; margin-right: 25px;'}
-    %p Retro kogi Thundercats, cliche chambray readymade blog selvage Tumblr church-key tofu distillery polaroid quinoa listicle. Yr banh mi sartorial art party, cray kale chips forage Austin selfies letterpress crucifix Carles fingerstache fashion axe mustache. Organic Austin Pitchfork meh ethical. DIY food truck street art four loko, pug gluten-free PBR umami. Twee synth small batch, seitan art party PBR&B direct trade put a bird on it Odd Future. Four loko letterpress DIY, +1 polaroid slow-carb pickled Intelligentsia. IPhone DIY plaid, cronut mixtape shabby chic Austin migas.
-    %p Disrupt synth food truck, sustainable small batch Etsy 3 wolf moon brunch Pitchfork you probably haven't heard of them PBR&B four loko. Post-ironic gluten-free meggings, cred chambray scenester leggings Schlitz sartorial drinking vinegar squid plaid typewriter banh mi. Pop-up Pinterest Kickstarter iPhone. Slow-carb Truffaut Marfa 3 wolf moon, bespoke wolf direct trade bitters paleo four dollar toast. Intelligentsia distillery Blue Bottle, before they sold out Shoreditch four dollar toast YOLO fap asymmetrical Helvetica whatever chillwave Williamsburg Banksy listicle. Sustainable hashtag Etsy jean shorts, disrupt viral roof party freegan migas. Kale chips Marfa deep v, tattooed beard before they sold out banh mi bicycle rights lo-fi gluten-free Wes Anderson iPhone mixtape vinyl quinoa.
-    %p Synth quinoa trust fund master cleanse. 3 wolf moon stumptown master cleanse literally wayfarers bitters. Chia 3 wolf moon literally XOXO cardigan four loko, fanny pack selfies art party mixtape dreamcatcher messenger bag deep v Williamsburg bicycle rights. Brunch butcher beard, Banksy keffiyeh whatever roof party YOLO sriracha. Vegan kogi single-origin coffee fashion axe fingerstache Portland, YOLO messenger bag pickled trust fund Williamsburg before they sold out salvia. Fashion axe butcher Williamsburg McSweeney's put a bird on it, bitters health goth ennui farm-to-table High Life disrupt. Artisan asymmetrical locavore vegan, ethical letterpress narwhal plaid salvia Schlitz chambray mixtape.
-    %img{src: "/assets/screen1.png", style: 'width: 500px; margin-top:100px;'}
+    .markdown-wrapper
+      :markdown
+        For filling in the credit card information, you will want to look at __Stripe's__ documentation on its [Checkout page](https://stripe.com/checkout). This makes it easy to integrate at first, but as you will see, there are a few 'gotchas'. With __Stripe Checkout__, we can have a website-to-customer interaction, but what if we want to host transactions between 2 users, similar to an Amazon? Or what if we don't want to charge our customer right away, but want to keep their information and charge them after the service delivery? To the left is my attempt to integrate a solution to these issues.
+
+        First you will see the `omniauth_callbacks` controller file. This is to allow our users to register their __Stripe__ accounts in order to be sellers. This is accomplished through the `omniauth_stripe_connect` gem. More information on the __Stripe Connect__ options can be found [here](https://stripe.com/connect). Once your user passes through the authorization, they will become connected accounts on your __Stripe__ dashboard.
+
+        Next we can see that in our __charges__ controller, we have made a few changes. Compare this to the __Stripe__ example [here](https://stripe.com/docs/connect/payments-fees). We have seperated the __Stripe::Customer.create__ and __Stripe::Charge.create__ actions into two seperate controller actions - `create` and `complete`. In the __create__ action, we save our users information in the `charge` model of our database. Once it is time to charge our customer, we call the __complete__ action with parameters for the destination and user __token__. If we look in our __Stripe dashboard__, we will be able to see the transaction transferring money to our seller, and an application fee ( defined in the `charges#complete` action) to us.
+
+        Well, that's about it for creating payments with __Stripe__. I hope you enjoyed this blog post. Please share your comments below. I am by no means an expert, and welcome corrections / improvements. Also, for the full repo, visit my Github site [here](https://github.com/tgoldenberg/stripe-test). Happy coding!
+    %img{src: "/assets/screen1.png", style: 'width: 380px; margin-top: 20px; margin-left: 50px;'}
+    %img{src: "/assets/screen5.png", style: 'width: 380px; margin-top: 20px; margin-left: 50px;'}
 
   %div{style: 'clear:both;'}
 
 
 .panel-dark{id: 'comments', style: 'min-height: 3em;'}
-  %h3 Comments
+  %h3{style: 'margin-left: 100px; width: 75%; padding-bottom: 15px; font-size: 28px;font-weight: 300; border-bottom: 1px solid #e4e4e4;'} #{@comments.count} comments
   - @comments.each do |comment|
-    %p Added by #{comment.author} #{time_ago_in_words(comment.created_at)} ago
-    %blockquote
-      %p #{comment.body}
+    %p.comment-body #{comment.body}
+    %p.comment-author Added by #{comment.author} #{time_ago_in_words(comment.created_at)} ago
 
 
-.modal
+
+.modal{style: 'margin-left: 100px; margin-top: 50px; margin-bottom: 50px;'}
   %label{for: 'modal-1'}
     .modal-trigger Click to Post a Comment
   %input{class: 'modal-state', id: 'modal-1', type: 'checkbox'}

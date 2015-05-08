@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'haml-rails'
 gem 'responders'
 gem 'closure_tree'
+gem 'redcarpet'
 
 group :development, :test do
   gem 'byebug'
