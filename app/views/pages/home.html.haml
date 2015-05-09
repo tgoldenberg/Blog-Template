@@ -5,7 +5,7 @@
     %h1 3-way payments with Stripe
     <p style="margin-bottom: 1em;"> Stripe is considered to have some of the best documentation available for payment gateway systems.
     While that is indeed true, it can still be daunting to implement custom features for your app with Stripe.
-    For sure, Stripe has some excellent feature to make styling easy,
+    For sure, Stripe has some excellent features to make styling easy,
     but what if you want to host payments between users? Here I will take you step-by-step through the process.</p>
 .panel-light{style: 'background: #F9F9F9;'}
   .content-wrapper{style: 'width: 60%; background: #F9F9F9;'}
@@ -102,7 +102,7 @@
       :markdown
         Now to get setup with Stripe, you should first create an account at [https://stripe.com/](https://stripe.com). There you'll get a set of keys, both for testing and for when your website is ready to launch. Here we'll be dealing with test mode. Once you have your publishable and secret keys, you'll want to use the __figaro__ gem to encrypt that information so that it isn't passed into your git commits and Github. Check out figaro's documentation [here](https://github.com/laserlemon/figaro).
 
-        Once that is done, since we are using `devise`, we should adjust our `initializers/devise.rb` file, and create a `stripe.rb` file in our __config/initializers__ folder. In out `routes.rb` file, you'll see that we've configured our __devise__ routes to include an `omniauth_callback` controller. We've also included a `charges#complete` controller action to allow us to create delayed payments. This way our buyer's are charged only upon successful completion of the terms of service.
+        Once that is done, since we are using `devise`, we should adjust our `initializers/devise.rb` file, and create a `stripe.rb` file in our __config/initializers__ folder. In out `routes.rb` file, you'll see that we've configured our __devise__ routes to include an `omniauth_callback` controller. We've also included a `charges#complete` controller action to allow us to create delayed payments. This way our buyers are charged only upon successful completion of the terms of service.
   .code-wrapper{style: 'width: 56%;'}
     %pre
       %code
@@ -267,7 +267,7 @@
 
         First you will see the `omniauth_callbacks` controller file. This is to allow our users to register their __Stripe__ accounts in order to be sellers. This is accomplished through the `omniauth_stripe_connect` gem. More information on the __Stripe Connect__ options can be found [here](https://stripe.com/connect). Once your user passes through the authorization, they will become connected accounts on your __Stripe__ dashboard.
 
-        Next we can see that in our __charges__ controller, we have made a few changes. Compare this to the __Stripe__ example [here](https://stripe.com/docs/connect/payments-fees). We have seperated the __Stripe::Customer.create__ and __Stripe::Charge.create__ actions into two seperate controller actions - `create` and `complete`. In the __create__ action, we save our users information in the `charge` model of our database. Once it is time to charge our customer, we call the __complete__ action with parameters for the destination and user __token__. If we look in our __Stripe dashboard__, we will be able to see the transaction transferring money to our seller, and an application fee ( defined in the `charges#complete` action) to us.
+        Next we can see that in our __charges__ controller, we have made a few changes. Compare this to the __Stripe__ example [here](https://stripe.com/docs/connect/payments-fees). We have seperated the __Stripe::Customer.create__ and __Stripe::Charge.create__ actions into two seperate controller actions - `create` and `complete`. In the __create__ action, we save our user's information in the `charge` model of our database. Once it is time to charge our customer, we call the __complete__ action with parameters for the destination and user __token__. If we look in our __Stripe dashboard__, we will be able to see the transaction transferring money to our seller, and an application fee ( defined in the `charges#complete` action) to us.
 
         Well, that's about it for creating payments with __Stripe__. I hope you enjoyed this blog post. Please share your comments below. I am by no means an expert, and welcome corrections / improvements. Also, for the full repo, visit my Github site [here](https://github.com/tgoldenberg/stripe-test). Happy coding!
     = image_tag asset_path("screen1.png")
